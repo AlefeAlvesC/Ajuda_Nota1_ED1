@@ -1,5 +1,6 @@
 #include <stdio.h> 
 #include <stdlib.h>
+#include <string.h>
 #include "lista.h"
 
 struct nodo{
@@ -10,14 +11,14 @@ struct nodo{
 
 struct lista{
     int tam;
-    char info;//Recebe o ponteiro para a primeira letra da palavra.
+    char info[100];
     Nodo *head;
 };
 
-Lista *lst_cria(char str){
+Lista *lst_cria(char *str){
     Lista *l = (Lista*) malloc(sizeof(Lista));
     l->tam = 0;
-    l->info = str;
+    strcpy(l->info, str);//Copia a palavra chave da lista
     l->head = NULL;
     return l;
 }
@@ -45,27 +46,45 @@ void lst_insere(Lista *l, int index){
 //Não precisaremos da função remover.
 void lst_remove(Lista *l, int index);
 
+//Função imprime 
+//Primeiro percorre a lista até o fim e depois vai imprimindo de trás para frente.
+void imprime_no(Nodo *no){
+    if(no->prox != NULL){
+        imprime_no(no->prox);
+    }
+
+    if(no->prox == NULL){
+        printf("(%d|%d)", no->index, no->vezes);
+    }else{
+        printf(", (%d|%d)", no->index, no->vezes);
+    }
+}
 
 void lst_imprime(Lista *l){
-    int prime = 1;//Varialvel para verificar se é o primeiro nodo da lista.
     
     //Printa a palavra.
-    printf("%c: ", l->info);
-    
-
-    Nodo *atual = l->head;
-    for(atual; atual != NULL; atual = atual->prox){
-        if(prime){
-            printf("(%d|%d)", atual->index, atual->vezes);
-            prime = 0;
-        }else
-            printf(", (%d|%d)", atual->index, atual->vezes);
-    }
+    printf("%8s: ", l->info);//Justificado em 8
+    imprime_no(l->head);
     printf("\n");
 
 }
 
-char lst_palavra(Lista *l){
+char *lst_palavra(Lista *l){
     return l->info;
+}
+
+//Libera os nós de tras para frente evitando a perda do encadeamento.
+void libera_no(Nodo *no){
+    if(no->prox != NULL){
+        libera_no(no->prox);
+    }
+    free(no);
+}
+
+
+void lst_libera(Lista *l){
+    l->tam = 0;
+    libera_no(l->head);
+    free(l);
 }
 
