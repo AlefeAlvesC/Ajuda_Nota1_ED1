@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include "lista.h"
 
 int main(){
@@ -7,12 +8,18 @@ int main(){
     for(int i = 0; i < 100; i++){
         l[i] = NULL;
     }
-
-    //Texto a ser lido.
     char texto[4][100];
+
+    FILE *fp;
+    //Abrindo o arquivo e recebendo o endereço para o primeiro letra do arquivo.
+    fp = fopen("arquivo.txt", "rt");
     for(int i = 0; i < 4; i++){
-        scanf(" %100[^\n]", texto[i]);
+        fscanf(fp, " %100[^\n]", texto[i]);
     }
+
+    //Fechando o arquivo.
+    fclose (fp);
+    
     
     for(int i = 0; i < 4; i++){//Percorre as linhas
          
