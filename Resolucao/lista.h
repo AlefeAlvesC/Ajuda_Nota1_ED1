@@ -8,7 +8,7 @@ typedef struct lista Lista;
 
 //Função cria
 //Cria e retorna uma estrutura lista criada dinamicamente.
-Lista *lst_cria(char str);
+Lista *lst_cria(char *str);
 
 //Função insere
 //Insere um novo nodo na lista.
@@ -23,8 +23,8 @@ void lst_remove();
 void lst_imprime(Lista *l);
 
 //Função palavra
-//Retorna a palavra da lista.
-char lst_palavra(Lista *l);
+//Retorna um ponteiro para a palavra da lista.
+char *lst_palavra(Lista *l);
 
 //Função vazia
 //Verifica se a lista está vazia.
